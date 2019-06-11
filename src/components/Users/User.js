@@ -1,9 +1,14 @@
-import React, { Fragment, useEffect } from "react";
+import React, { Fragment, useEffect, useContext } from "react";
 import Spinner from "../layout/Spinner";
-import PropTypes from "prop-types";
 import Repos from "../repos/Repos";
 import { Link } from "react-router-dom";
-const User = ({ user, loading, repos, getRepo, getUser, match }) => {
+import GithubContext from "../../context/Github/GithubContext";
+
+const User = ({ match }) => {
+  //initialize githubcontext
+  const githubcontext = useContext(GithubContext);
+  //destructure
+  const { getUser, user, loading, getRepo, repos } = githubcontext;
   //pull the username from the getuser method in app
   useEffect(() => {
     getUser(match.params.login);
@@ -44,12 +49,7 @@ const User = ({ user, loading, repos, getRepo, getUser, match }) => {
       )}
       <div className='card grid-2'>
         <div className='all-center'>
-          <img
-            src={avatar_url}
-            className='round-img'
-            alt=''
-            style={{ width: "150px" }}
-          />
+          <img src={avatar_url} className='round-img' alt='' style={{ width: "150px" }} />
           <h1>{name}</h1>
           <p>Location: {location}</p>
         </div>
@@ -99,12 +99,12 @@ const User = ({ user, loading, repos, getRepo, getUser, match }) => {
   );
 };
 //TYPECHECK
-User.propTypes = {
-  loading: PropTypes.bool.isRequired,
-  user: PropTypes.object.isRequired,
-  repos: PropTypes.array.isRequired,
-  getUser: PropTypes.func.isRequired,
-  getRepo: PropTypes.func.isRequired
-};
+// User.propTypes = {
+//   loading: PropTypes.bool.isRequired,
+//   user: PropTypes.object.isRequired,
+//   repos: PropTypes.array.isRequired,
+//   getUser: PropTypes.func.isRequired,
+//   getRepo: PropTypes.func.isRequired
+// };
 
 export default User;
